@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attendance System</title>
+</head>
+<body>
+    <h1>Attendance System</h1>
+    
+    <h2>Take Attendance</h2>
+    <form id="attendanceForm">
+        Session Code: <input type="text" id="sessionCode" required><br>
+        Participant Name: <input type="text" id="participantName" required>
+        <input type="submit" value="Take Attendance">
+    </form>
+
+    <h2>Attendance List</h2>
+    <ul id="attendanceList">
+        <!-- Attendance data will be displayed here -->
+    </ul>
+
+    <script>
+        const attendanceData = {}; // Store attendance data in-memory
+
+        document.getElementById('attendanceForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const sessionCode = document.getElementById('sessionCode').value;
+            const participantName = document.getElementById('participantName').value;
+
+            // Check if the session code exists in the attendance data
+            if (!attendanceData[sessionCode]) {
+                attendanceData[sessionCode] = [];
+            }
+
+            attendanceData[sessionCode].push(participantName);
+
+            // Display the updated attendance list
+            displayAttendance(sessionCode);
+
+            // Clear input fields
+            document.getElementById('sessionCode').value = '';
+            document.getElementById('participantName').value = '';
+        });
+
+        function displayAttendance(sessionCode) {
+            const list = document.getElementById('attendanceList');
+            list.innerHTML = ''; // Clear the list
+
+            if (attendanceData[sessionCode]) {
+                attendanceData[sessionCode].forEach(function (participant) {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = participant;
+                    list.appendChild(listItem);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
